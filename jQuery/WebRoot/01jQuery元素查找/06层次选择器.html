@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>层次选择器.html</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+ <ul>
+  <li>AAAAA</li>
+  <li class="box">CCCCC</li>
+  <li title="hello"><span>BBBBB</span></li>
+  <li title="hello"><span class="box">DDDD</span></li>
+  <span>EEEEE</span>
+ </ul>
+ <!--
+层次选择器: 查找子元素, 后代元素, 兄弟元素的选择器
+1. ancestor descendant
+  在给定的祖先元素下匹配所有的后代元素
+2. parent>child
+  在给定的父元素下匹配所有的子元素
+3. prev+next
+  匹配所有紧接在 prev 元素后的 next 元素
+4. prev~siblings
+  匹配 prev 元素之后的所有 siblings 元素
+-->
+<script type="text/javascript" src="script/jquery-1.12.3.js"></script>
+ <script type="text/javascript">
+ //1,选择ul下所有的span
+ //$("ul span").css("background","cyan");
+ //2,选择ul下所有的子元素span
+ //$("ul>span").css("background","cyan");
+ //3,选择class为box的下一个li
+ //$(".box+li").css("background","cyan");
+ //4,选择ul下的class为box的元素后面的所有兄弟元素
+ //$(".box~*").css("background","cyan");
+ </script>
+  </body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>03jQuery核心函数.html</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+<body>
+<div>
+  <button id="btn">测试</button>
+  <br/>
+
+  <input type="text" name="msg1"/><br/>
+  <input type="text" name="msg2"/><br/>
+</div>
+
+<!--
+1. 作为一般函数调用: $(param)
+  1). 参数为函数 : 当DOM加载完成后，执行此回调函数
+  2). 参数为选择器字符串: 查找所有匹配的标签, 并将它们封装成jQuery对象
+  3). 参数为DOM对象: 将dom对象封装成jQuery对象 相当于 $(this)
+  4). 参数为html标签字符串 (用得少): 创建标签对象并封装成jQuery对象
+2. 作为对象使用: $.xxx()
+  1). $.each() : 隐式遍历数组
+  2). $.trim() : 去除两端的空格
+-->
+<script type="text/javascript" src="script/jquery-1.12.3.js"></script>
+<script type="text/javascript">
+//需求1,点击按钮:显示按钮的文本,显示一个新的输入框
+$(function(){//绑定文档加载完成的监听
+ //参数为选择器字符串:查找所有匹配的标签,并将它们封装成jQuery对象
+$("#btn").click(function(){//绑定点击事件监听
+   //this是什么? 发生事件的dom元素<button>但是此时不是jQuert对象了
+   //方法1,alert(this.innerHTML)
+   //参数为dom对象:将dom对象封装成jQuery对象
+    alert($(this).html());
+   //参数为html标签字符串(用的少):创建标签对象并且封装成jQuery对象
+   //注意如果外面是单引号里面就必须双引号不能单引号了 相反外面是双引号里面就要单引号
+   $('<input type="text" name= "msg3"/><br/>').appendTo("div");
+
+});
+});
+
+//需求2,遍历输出数组中的所有的元素值
+var arr = [2,3,5,6,6]
+//1,$.each():隐式遍历数组
+$.each(arr,function(index,item){//参数为 索引和元素
+console.log(index,item);
+})
+//2,$.trim:去掉两端的空格
+var str = "   kyle    ";
+console.log("-----"+$.trim(str)+"------");
+</script>
+</body>
+</html>

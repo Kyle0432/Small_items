@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ex1.html</title>
+    <!-- 一般地, 不能在 body 节点之前来直接获取 body内的节点,
+                        因为此时 html 文档树还没有加载完成,获取不到指定的节点:-->
+    <!-- 一般地, 在 body 节点之前编写 js代码,
+                      但需要利用 window.onload 事件,　
+	             该事件在当前文档完全加载之后被触发, 
+	             所以其中的代码可以获取到当前文档的任何节点.-->
+	<script type="text/javascript">
+	//1，当整个HTML文档完全加载成功后触发 window.onload事件.
+	//事件触发时,执行后面 function里面的函数体
+	window.onload = function(){
+	//2，获取所有的button节点,并取得第一个元素
+	var btn = document.getElementsByTagName("button")[0];//getElementsByTagName[获取元素标签名]
+	//3,为button的onclick事件赋值:当点击button时,执行函数体
+	btn.onclick = function(){
+	//4，弹出helloworld的对话框
+	alert("helloworld");
+	}
+	}
+	
+	</script>
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  <!--此处表示body节点之前  -->
+  <body>
+  <!-- bood内的节点也就是body体 -->
+    <button>ClickMe</button>
+  </body>
+</html>
+<!--此处表示body节点之后  -->

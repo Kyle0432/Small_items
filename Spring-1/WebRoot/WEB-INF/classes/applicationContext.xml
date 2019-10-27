@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+
+   <!-- 配置bean -->
+   <!-- 
+       id:标识容器中的bean  id是唯一的
+       class:全类名,通过反射的方式在IOC容器中创建Bean,所以要求Bean中必须要有无参构造器
+       name:是在HelloWorld里setXXX那个name具有javaBean风格的写法
+       value:给属性所赋的值
+    -->
+    <!-- 此方法是通过set属性注入的,并且在开发中最常用的注入方式 -->
+   <bean id="helloWorld" class="com.kyle.spring.beans.HelloWorld">
+         <property name="name2" value="Spring"></property>
+   </bean>
+   
+   <!-- 通过构造方法来配置bean的属性 -->
+   <bean id="car" class="com.kyle.spring.beans.Car">
+              <!--<constructor-arg>里面没有name元素  -->
+          <constructor-arg value="falali" index="0"></constructor-arg>
+          <constructor-arg value="beijing" index="1"></constructor-arg>
+          <constructor-arg value="500000" type="double"></constructor-arg>
+   </bean>
+   <!-- 当遇到两个bean时,可以使用指定参数的位置和参数的类型来区分重置的构造器 -->
+   <bean id="car2" class="com.kyle.spring.beans.Car">
+          <constructor-arg value="baoma" type="java.lang.String"></constructor-arg>
+          <!-- 可以直接为属性或引用赋null值 -->
+          <!-- <constructor-arg><null/></constructor-arg> -->
+          <constructor-arg value="jiangx" type="java.lang.String"></constructor-arg>
+          <!-- 这里value"200"是字符串类型 而在bean是int类型 所有spring会自动从字符串转化为int类型 -->
+          <constructor-arg value="200" type="int"></constructor-arg>
+          <!-- 同时value也可以作为一个子节点来注入,好处是如果value的字面值(表示基本数据类型)包含特殊字符可以用<![CDATA[]]>包裹起来 -->
+           <!-- <constructor-arg  type="int">
+                    <value><![CDATA[#220#]]></value>
+           </constructor-arg> --> 
+   </bean>
+   
+   <bean id="person" class="com.kyle.spring.beans.Person">
+        <property name="name" value="Kyle"></property>
+        <property name="age" value="20"></property>
+        <!-- 可以使用property 的ref属性建立bean之间的引用关系 -->
+        <property name="car" ref="car2"></property>
+        <!-- 为级联属性赋值,在bean里面要提供set方法 -->
+        <property name="car.price" value="300000"></property>
+        <!-- ref也可以像value一样作为一个子节点 -->
+        <!-- <property name="car" >
+             <ref bean="c ar2"/>
+        </property> -->
+        <!-- 内部bean,不能被外部引用的,只能在内部使用 -->
+<!--     <property name="car">
+           <bean class="com.kyle.spring.beans.Car">
+                  <constructor-arg value="luhu"></constructor-arg>
+                  <constructor-arg value="guangzhou"></constructor-arg>
+                  <constructor-arg value="2000000" type="double"></constructor-arg>
+           </bean>
+        </property> -->
+   </bean>
+   
+   <!-- 测试如何配置集合属性 -->
+   <bean id="person2" class="com.kyle.spring.beans.collection.Person">
+         <property name="name" value="Mike"></property>
+         <property name="age" value="23"></property>
+         <property name="cars">
+            <!-- 使用list节点来表示集合 -->
+                 <list>
+                   <ref bean="car"/>
+                   <ref bean="car2"/>
+                 </list>
+         </property>
+   </bean>
+   <!-- 配置Map属性值 -->
+   <bean id="newPerson" class="com.kyle.spring.beans.collection.NewPerson">
+        <property name="name" value="rose"></property>
+        <property name="age"  value="24"></property>
+        <property name="cars">
+        <!-- 使用map 节点及map的entry子节点配置Map类型的成员变量-->
+               <map>
+                  <entry key="AA" value-ref="car"></entry>
+                  <entry key="BB" value-ref="car2"></entry>
+               </map>
+        </property>
+   </bean>
+   <!-- 配置Properties 属性值-->
+   <bean id="dataSource" class="com.kyle.spring.beans.collection.DataSource">
+        <property name="properties">
+          <!-- 使用props和prop子节点来为Properties 给属性赋值 -->
+            <props>
+               <prop key="user">root</prop>
+               <prop key="password">mysqladmin</prop>
+               <prop key="jdbcurl">jdbc:mysql:///test</prop>
+               <prop key="driverClass">com.mysql.jdbc.Driver</prop>
+            </props>
+        </property>
+   </bean>
+   <!-- 配置单例的集合bean ,已提供多个bean进行引用,需要导入util命名空间 -->
+      <util:list id="cars">
+         <ref bean="car"/>
+         <ref bean="car2"/>
+      </util:list>
+      <bean id="person3" class="com.kyle.spring.beans.collection.Person">
+           <property name="name" value="jack"></property>
+           <property name="age" value="77"></property>
+           <property name="cars" ref="cars"></property>
+      </bean>
+   <!--通过p命名空间为bean的属性值赋值,需要先导入p命名空间,这种赋值方式比上面传统方式要简洁  -->
+   <bean id="person5" class="com.kyle.spring.beans.collection.Person"
+   p:age="33" p:name="caven" p:cars-ref="cars"></bean>
+</beans>

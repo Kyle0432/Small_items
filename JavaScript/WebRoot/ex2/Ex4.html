@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ex4l.html</title>
+	<script type="text/javascript">
+	//获取文本节点
+	    window.onload = function(){
+	        //文本节点一定是元素节点的子节点
+	    //1,获取文本节点的所在的元素节点
+	    var bjNode = document.getElementById("bj");
+	    
+	    //2,通过firstChild定位到文本节点的第一个节点
+	    var bjTextNode = bjNode.firstChild;
+	    
+	    //3,通过操作文本节点的nodeValue属性来读写文本节点的值
+	    
+	    //显示文本节点值
+	    alert(bjTextNode.nodeValue);
+	    
+	    // 设置属性
+	    bjTextNode.nodeValue = "Kyle";
+	    }
+	
+	
+	</script>
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+<p>你喜欢哪个城市?</p>
+		<ul id="city">
+			<li id="bj" name="BeiJing">北京</li>
+			<li>上海</li>
+			<li>东京</li>
+			<li>首尔</li>
+		</ul>
+		
+		<br><br>
+		<p>你喜欢哪款单机游戏?</p>
+		<ul id="game">
+			<li id="rl">红警</li>
+			<li>实况</li>
+			<li>极品飞车</li>
+			<li>魔兽</li>
+		</ul>
+		
+		<br><br>
+		name: <input type="text" name="username" 
+			id="name" value="atguigu"/>
+
+  </body>
+</html>

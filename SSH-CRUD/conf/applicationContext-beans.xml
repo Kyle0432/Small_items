@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+       <!-- 配置dao层的bean -->
+       <bean id="departmentDao" class="com.kyle.ssh.dao.DepartmentDao">
+             <property name="sessionFactory" ref="sessionFactory"></property>
+       </bean>
+       <bean id="employeeDao" class="com.kyle.ssh.dao.EmployeeDao">
+             <property name="sessionFactory" ref="sessionFactory"></property>
+       </bean>
+       
+       <!-- 配置service的bean -->
+       <bean id="departmentService" class="com.kyle.ssh.service.DepartmentService">
+             <property name="departmentDao" ref="departmentDao"></property>
+       </bean>
+       
+       <bean id="employeeService" class="com.kyle.ssh.service.EmployeeService">
+             <property name="employeeDao" ref="employeeDao"></property>
+       </bean>
+       
+       <bean id="employeeAction" class="com.kyle.ssh.actions.EmployeeAction" scope="prototype">
+             <property name="employeeService" ref="employeeService"></property>
+             <property name="departmentService" ref="departmentService"></property>
+       </bean>
+</beans>

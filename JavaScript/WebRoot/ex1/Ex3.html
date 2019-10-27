@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ex3.html</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+         <button>ClickMe</button>
+  </body>
+</html>
+    <!-- 
+        在整个HTML文档被加载后,获取其中的节点,
+        把 script 节点放在html文档的最后
+        但不符合Js代码的习惯
+     -->
+ <script type="text/javascript">
+ //1,获取button
+ var btns = document.getElementsByTagName("button");
+ alert(btns.length);
+ //2,为button添加 onclick响应函数
+ btns[0].onclick = function () {
+	alert("helloworld");
+}
+ </script>

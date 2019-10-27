@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>01初识jQuery.html</title>
+	  <!--使用原生DOM-->
+  <script type="text/javascript">
+    window.onload = function () {
+      var btn1 = document.getElementById('btn1')
+      btn1.onclick = function () {
+        var username = document.getElementById('username').value
+        alert(username)
+      }
+    }
+  </script>
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+    用户名: <input type="text" id="username">
+<button id="btn1">确定(原生版)</button>
+<button id="btn2">确定(jQuery版)</button>
+
+
+<!-- 使用jQuery实现,在该位置写jQuery代码是效率最高的 -->
+<!-- 表示本地引入 -->
+<script type="text/javascript" src="script/jquery-1.12.3.js"></script>
+<!--远程引入,就是引入网上的资源,但是使用时必须要有网络.否则无法使用-->
+<!--<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.js"></script>-->
+<script type="text/javascript">
+ //绑定文档加载完成的监听,相当于js里的window.onload = function()
+ $(function(){
+  $("#btn2").click(function(){//给btn2绑定点击监听,表示点击了就会执行function(){}里面的内容
+   var username = $("#username").val();
+     alert(username);
+  });
+ });
+
+</script>
+  </body>
+</html>

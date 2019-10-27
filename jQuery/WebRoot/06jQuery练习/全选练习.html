@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>全选练习.html</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+    <form>
+  你爱好的运动是？<input type="checkbox" id="checkedAllBox"/>全选/全不选
+
+  <br/>
+  <input type="checkbox" name="items" value="足球"/>足球
+  <input type="checkbox" name="items" value="篮球"/>篮球
+  <input type="checkbox" name="items" value="羽毛球"/>羽毛球
+  <input type="checkbox" name="items" value="乒乓球"/>乒乓球
+  <br/>
+  <input type="button" id="checkedAllBtn" value="全　选"/>
+  <input type="button" id="checkedNoBtn" value="全不选"/>
+  <input type="button" id="checkedRevBtn" value="反　选"/>
+  <input type="button" id="sendBtn" value="提　交"/>
+</form>
+
+<script type="text/javascript" src="script/jquery-1.12.3.js"></script>
+<script type="text/javascript">
+
+ 
+ $(function(){
+ var $checkedAllBox = $("#checkedAllBox");
+ var $items = $(":checkbox[name = items]");
+ //全选
+ $("#checkedAllBtn").on("click",function(){
+   $items.prop("checked",true);
+   $checkedAllBox.prop("checked",true);
+ });
+ //全不选
+ $("#checkedNoBtn").click(function(){
+   $items.prop("checked",false);
+   $checkedAllBox.prop("checked",false);
+ });
+ //反选
+ $("#checkedRevBtn").click(function(){
+   $items.each(function(){
+     this.checked = !this.checked;
+   });                            //此时表示如果没被选中的长度为0就表示true,反过来就是全选中了
+   $checkedAllBox.prop("checked",$items.filter(":not(:checked)").length===0);
+ });
+ //提交显示出所选择的信息
+ $("#sendBtn").click(function(){
+  $items.filter(":checked").each(function(){
+     alert(this.value);
+  });
+ });
+ //全选/全不选Btn
+ $checkedAllBox.click(function(){
+    $items.prop("checked",this.checked);
+ });
+ //点击爱好时  更新checkedAllBox
+ $items.click(function(){
+    $checkedAllBox.prop("checked",$items.filter(":not(:checked)").length === 0);
+ });
+ });
+
+</script>
+  </body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>exe2.html</title>
+	<script type="text/javascript">
+	//需求: 若 #checkedAll_2 被选中, 则 name=items 的 checkbox 都被选中
+	//若 #checkedAll_2 取消选中, 则 name=items 的 checkbox 都取消选中
+	//若 name=items 的 checkbox 都被选中, 则 #checkedAll_2 的 checkbox 也被选中
+	//若 name=items 的 checkbox 有一个没有被选中, 则 #checkedAll_2 取消选择.
+
+	//提示: 事件需要加给  #checkedAll_2, 获取 name=items 的 checkbox 数组
+	//判断是否被选中, 若被选择, 则 name=items 的 checkbox 都要被选择
+	//若没有被选择, 则 name=items 的 checkbox 都要取消选择
+	//根据是否存在 checked 属性来判断是否被选择, 可以使其 checked = true 被选择
+	//checked = false 取消选择. 
+	
+	//还需要给每个  name=items 的 checkbox 加响应函数
+	//判断  name=items 的 checkbox 是否都被选中: 选择的个数和总个数是否相等.
+	//若都被选择: 则使  #checkedAll_2 被选择
+	//若没有都被选择: 则使  #checkedAll_2 取消选择	
+	
+	window.onload = function(){
+	//加响应函数 ,如果点击了document.getElementById("checkedAll_2")的属性值checked直接变true
+	document.getElementById("checkedAll_2").onclick = function(){
+	//根据是否存在 checked 属性来判断是否被选择
+	//可以使其 checked = true 被选择,checked = false 取消选择. 
+	//也就是说当点击的时候 checked = true 了,这里的this表示
+	//document.getElementById("checkedAll_2"),不点击就为false
+	var flag = this.checked;//此处this.checked表示获取属性checked
+	//获取name="items"的所有节点
+	var items = document.getElementsByName("items");
+	//循环遍历name = "items"的属性节点
+	for(var i = 0; i < items.length; i++){
+	//根据上面是否点击来确定flag为true还是false
+         items[i].checked = flag;	 
+	   }
+    }
+    //获取name="items"的所有节点
+	var items = document.getElementsByName("items");
+	//循环遍历name = "items"的属性节点
+	for(var i = 0; i < items.length; i++){
+	//表示每一个checkbox都设置响应函数
+	   items[i].onclick = function(){
+	   //记录有多少个items被选中了
+	   var number = 0 ;
+	   for(var j = 0; j <items.length; j++){
+	   //如果选中就叠加1
+	      if(items[j].checked){
+	          number++;
+	      }
+	   }
+	   //表示被累加的数量等于全部的全部节点items的数量就checked就为true
+	   document.getElementById("checkedAll_2").checked = (items.length == number);
+	   
+	   }
+	}
+	
+	document.getElementById("CheckedAll").onclick = function(){
+	       for(var i = 0; i < items.length;i++){
+	           items[i].checked = true;
+	       }
+	}
+    document.getElementById("CheckedNo").onclick = function(){
+           for(var i = 0; i < items.length; i++){
+              items[i].checked = false;
+           }
+    }	
+    document.getElementById("CheckedRev").onclick = function(){
+           for(var i = 0; i < items.length; i++){
+              items[i].checked = !items[i].checked;
+           }
+    }	
+	document.getElementById("send").onclick = function(){
+	       for(var i = 0; i < items.length;i++){
+	          if(items[i].checked){
+	            alert(items[i].value);
+	       }
+	    }
+	 }
+  } 
+	
+	</script>
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+<form method="post" action="">
+		你爱好的运动是？<input type="checkbox" id="checkedAll_2" />全选/全不选 
+		
+		<br /> <input
+			type="checkbox" name="items" value="足球" />足球 <input type="checkbox"
+			name="items" value="篮球" />篮球 <input type="checkbox" name="items"
+			value="羽毛球" />羽毛球 <input type="checkbox" name="items" value="乒乓球" />乒乓球
+		<br /> <input type="button" id="CheckedAll" value="全　选" /> <input
+			type="button" id="CheckedNo" value="全不选" /> <input type="button"
+			id="CheckedRev" value="反　选" /> <input type="button" id="send"
+			value="提　交" />
+	</form>
+
+  </body>
+</html>

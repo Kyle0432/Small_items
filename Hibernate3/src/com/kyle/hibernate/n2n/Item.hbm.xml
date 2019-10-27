@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.kyle.hibernate.n2n">
+
+    <class name="Item" table="ITEMS">
+    
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        
+        <property name="name" type="java.lang.String">
+            <column name="NAME" />
+        </property>
+        <!-- 和category.hbmxml对应的,并且这样两边都这样写表示双向多对多 -->
+        <!-- 这里两边都会相互维护关联关系 所有要定义一边放弃维护关联关系 -->
+        <set name="categories" table="CATEGORIES_ITEMS" inverse="true">
+               <key column="I_ID"></key>
+               <many-to-many class="Category" column="C_ID"></many-to-many>
+        </set>
+    </class>
+</hibernate-mapping>

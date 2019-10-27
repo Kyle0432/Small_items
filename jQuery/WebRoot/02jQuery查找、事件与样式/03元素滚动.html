@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>03元素滚动.html</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+<body style="height: 2000px;">
+<div style="border:1px solid black;width:100px;height:150px;overflow:auto">
+  This is some text. This is some text. This is some text. This is some text.
+  This is some text. This is some text. This is some text. This is some text.
+  This is some text. This is some text. This is some text. This is some text.
+  This is some text. This is some text. This is some text. This is some text.
+  This is some text. This is some text. This is some text. This is some text.
+  This is some text. This is some text. This is some text. This is some text.
+  his is some text.
+</div>
+<br>
+<br>
+<br>
+<button id="btn1">得到scrollTop</button>
+<button id="btn2">设置scrollTop</button>
+
+<!--
+1. scrollTop():
+  读取/设置滚动条的Y坐标
+2. $(document.body).scrollTop()+$(document.documentElement).scrollTop()
+  读取页面滚动条的Y坐标(兼容chrome和IE)
+3. $('body,html').scrollTop(60);
+  滚动到指定位置(兼容chrome和IE)
+-->
+<script type="text/javascript" src="script/jquery-1.12.3.js"></script>
+<script type="text/javascript">
+//1,得到div或页面滚动条的坐标
+$("#btn1").click(function(){
+   console.log($("div").scrollTop());
+   //由于浏览器兼容性的问题 得到页面的坐标必须html、body两个同时得到下在相加 因为总有一个是为0的
+   //console.log($("html").scrollTop()+$("body").scrollTop());//方法一
+   //此方法兼容 IE 和Chrome
+   console.log($(document.documentElement).scrollTop()+$(document.documentElement).scrollTop());
+
+});
+//2,让div或页面的滚动条滚到指定的位置
+ $("#btn2").click(function(){
+     $("div").scrollTop(200);
+     //注意这里要设置页面滚动的指定的位置不能
+     // $("html").scrollTop()+$("body").scrollTop()
+     //在里面设置指定的位置值,必须   像$('html,body').scrollTop(XXX)
+     $("html,body").scrollTop(300);
+ });
+
+</script>
+  </body>
+</html>

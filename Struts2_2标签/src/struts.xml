@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+       <package name="Tags" extends="struts-default">
+       
+       <action name="testTag" class="com.kyle.struts2.tags.Product"
+       method="testTag">
+       <result>/common-tags.jsp</result>
+       </action>
+       
+       <!-- 进行表单回显操作 -->
+       <action name="save" class="com.kyle.struts2.tags.UserAction"
+       method="save">
+               <result name="input">/form-tags.jsp</result>
+       </action>
+       
+       <action name="emp-*" class="com.kyle.struts2.apps.Employee"
+       method="{1}">
+                <result name="{1}">/emp-{1}.jsp</result>
+       </action>
+       </package>
+</struts>

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2019-2-1 16:00:54 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+
+    <class name="com.kyle.hibernate.entities.News" table="NEWS" dynamic-update="true">
+    
+        <id name="id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        
+        <property name="author" type="java.lang.String">
+            <column name="AUTHOR" />
+        </property>
+        
+        <property name="title" type="java.lang.String">
+            <column name="TITLE" />
+        </property>
+        
+        <property name="date" type="timestamp">
+            <column name="DATE" />
+        </property>
+        
+        <!-- 映射大对象-->
+        <!-- 若希望精确映射SQL类型,可以使用sql-type属性 -->
+        <property name="content">
+                <column name="CONTENT" sql-type="mediumtext"></column>
+        </property>
+        
+        <property name="image">
+                 <column name="IMAGE" sql-type="mediumblob"></column>
+        </property>
+    </class>
+</hibernate-mapping>

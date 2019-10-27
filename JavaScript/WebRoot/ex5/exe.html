@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>exe.html</title>
+	<script type="text/javascript">
+	   window.onload = function(){
+	     //1，为province添加onchange响应函数
+	   document.getElementById("province").onchange = function(){
+	   //1.1 把#city节点除第一个子节点外都移除
+	   var cityNode = document.getElementById("city");
+	   var cityNodeOptions = cityNode.getElementsByTagName("option");
+	   var len = cityNodeOptions.length;
+	   //要从1开始要不然就会移除不干净
+	   for(var i = 1; i < len; i++){
+	     cityNode.removeChild(cityNodeOptions[1]);
+	   }
+	   //这里的this表示   document.getElementById("province") 一点击到的位置获取该位置的Value
+	   var provinceVal = this.value;
+	   //为空就直接返回  
+	   if(provinceVal == ""){
+	       return;
+	   }
+	   //2,加载cities.xml文件,得到代表给文档的document对象
+	   var xmlDoc = parseXml("cities.xml");
+	   
+	   //3,在cities.xml文档中查询和选择的省匹配的province节点
+	   //直接使用Xpath技术查找XML文档中匹配的节点                      节点名           属性
+	        //表示指定的节点
+	   var provinceEles = xmlDoc.selectNodes("//province[@name= '"+provinceVal+"']");
+	   
+	   //4,再得到province节点的所有的city子节点的文本值
+	   var cityNodes = provinceEles[0].getElementsByTagName("city");
+	   
+	   //5,遍历city子节点,得到每一个city子节的文本值
+	   for(var i = 0; i < cityNodes.length;i++){
+	      //6,利用得到的文本值创建option节点
+	      var cityText = cityNodes[i].firstChild.nodeValue;
+	      var cityTextNode = document.createTextNode(cityText);
+	      var optionNode = document.createElement("option");
+	      optionNode.appendChild(cityTextNode);
+	      //7,并把6创建的option节点添加为#city的子节点.
+	      cityNode.appendChild(optionNode);
+	   }
+	   
+	 }
+	   
+					//js 解析 xml 文档的函数, 只支持 ie
+				function parseXml(fileName){
+				    //IE 内核的浏览器
+				    if (window.ActiveXObject) {
+				        //创建 DOM 解析器
+				        var doc = new ActiveXObject("Microsoft.XMLDOM");
+				        doc.async = "false";
+				        //加载 XML 文档, 获取 XML 文档对象
+				        doc.load(fileName);
+				        return doc;
+				    }
+				}   
+	   
+	   }
+	
+	</script>
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+    <select id="province">
+			<option value="">请选择...</option>
+			<option value="河北省">河北省</option>
+			<option value="辽宁省">辽宁省</option>
+			<option value="山东省">山东省</option>
+		</select>
+		
+		<select id="city"><option value="...">请选择...</option></select>
+  </body>
+</html>

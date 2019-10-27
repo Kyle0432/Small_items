@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyle.mybatis.dao.EmployeeMapper"><!-- 此时表示该文件和接口绑定了 -->
+<!-- 
+Mybatis提供了一个功能就是接口和配置文件进行动态绑定
+namespace:名称空间,指定接口的全类名
+id:唯一标识
+resultType:返回值类型(类的全类名,有点像hibernate里的映射)
+#{id}:从传递过来的参数中取出id值
+public Employee getEmpById(Integer id);
+ -->
+ <!-- id设置为接口里方法的方法名,表示select标签和这个方法绑定了 
+            同样select标签是EmployeeMapper接口下getEmpById方法的实现
+     databaseId的别名mysql表示的是标签里的sql语句是在MySQL环境下使用的 
+            同样可以在其他数据库环境下使用,只需要在全局配置文件中进行环境的切换即可
+        -->
+ <select id="getEmpById" resultType="emp" databaseId="mysql">
+ <!-- 这里给last_name取了别名,尽管javaBean那里属性和数据库字段不对应,而这里取了别名就可以获取该字段 -->
+ select * from employee where id = #{id}
+ </select>
+</mapper>

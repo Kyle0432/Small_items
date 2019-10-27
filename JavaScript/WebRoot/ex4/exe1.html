@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>exe1.html</title>
+	<script type="text/javascript">
+	/**
+	为#employeetable的所有的 a 节点添加 onclick 响应函数:
+	1,弹出确认对话框:确定要删除 xx 的信息吗？ xx 为当前 a 节点所在的td所在的tr的
+	第一个td子节点的文本值,且要去除前后空格,
+	2,若点击 "确认",则删除 a 节点的所在的行
+	
+	注意:
+	1,a节点是一个超链接,可以在其onclick 事件通过返回 false ,来取消默认行为
+	2,tr的直接父节点为tbody ,而不是table
+	3,可以把去除前后空格的代码写成一个trim(str)的函数
+	
+	为#addEmpButton 添加onclick 响应函数:
+	1,获取#name #email #salary 的文本框的值
+	2,利用1,获取的文本值创建3个td节点,再创建一个tr节点,并把以上的3个td
+	节点价位ttr节点的子节点
+	
+	<tr>
+	<td>XXX</td>
+	<td>com</td>
+	<td>3333</td>
+	</tr>
+	3,再创建一个td节点:<td><a href="deleteEmp?id=xxx">Delete</a></td>
+	4,把3创建的td也加为tr的子节点
+	5,再把tr加为#employeetable的tbody子节点的子节点.
+	6,为新创建的tr的a子节点添加onclick响应函数,使其也具备删除的功能
+	                        */
+	window.onload = function(){
+	    //该方法是封装删除子节点的,通过传参数的形式
+	    function removeTr(aNode) {
+	    //获取aNode父节点的父节点就是当前的tr节点
+			var trNode = aNode.parentNode.parentNode;
+		//再获取tr节点里面的所有以td为标签的节点的第一个节点的文本值	
+			var textContent = trNode.getElementsByTagName("td")[0].firstChild.nodeValue;
+		//该文本值去掉空格
+			textContent = trim(textContent);
+		//	弹出确认框
+			var flag = confirm("确定要删除"+textContent+"的信息吗？");
+	    //flag当默认为true时执行if体也就是你点击确定时
+			if(flag){
+		//通过trNode的父节点然后删除该指定的子节点
+			    trNode.parentNode.removeChild(trNode);
+			}
+			//表示无返回的意思
+			return false;
+		}
+	    //封装的是去掉空格的方法
+	    function trim(str) {
+	    //正则表达式,reg表示前后空格
+			var reg = /^\s*|\s*$/g;
+		//然后调用该函数就直接返回 str.replace(reg,"");去空格
+			return str.replace(reg,"");
+		}
+	    //获取employeetable里面标签名为a的
+	    var aNodes = document.getElementById("employeetable")
+	                         .getElementsByTagName("a");
+	     //进行循环遍历                    
+	    for(var i = 0 ; i < aNodes.length; i++){
+	    //设置点击响应函数
+	        aNodes[i].onclick = function(){
+	        //调用函数删除节点
+	           removeTr(this);
+	           //取消默认行为
+	           return false;
+	        }
+	    
+	    }
+	   // 设置addEmpButton响应函数
+	document.getElementById("addEmpButton").onclick = function(){
+	   //每个节点的value
+	var nameVal = document.getElementById("name").value;
+	var emailVal = document.getElementById("email").value;
+	var salaryVal = document.getElementById("salary").value;
+	   //创建td节点并且,并且创建文本值吧上面的value加进文本值,然后文本值加入td节点
+	var nameTd = document.createElement("td");
+	nameTd.appendChild(document.createTextNode(nameVal));
+	
+	var emailTd = document.createElement("td");
+	emailTd.appendChild(document.createTextNode(emailVal));
+	
+	var salaryTd = document.createElement("td");
+	salaryTd.appendChild(document.createTextNode(salaryVal));
+	     //创建tr节点,并且把每个td节点都加入tr当前的子节点里
+	var tr  = document.createElement("tr");
+	tr.appendChild(nameTd);
+	tr.appendChild(emailTd);
+	tr.appendChild(salaryTd);
+	     //再创建一个a节点
+	var aNode = document.createElement("a");
+	     //手动给它设置属性值href
+	aNode.href = "deleteEmp?id=xxx";
+	     //然后給a连接设置文本值  Delete
+	aNode.appendChild(document.createTextNode("Delete"));
+	     //再创建一个td节点
+	var aTd = document.createElement("td");
+	     //把a节点放到td节点里面
+	aTd.appendChild(aNode);
+	     //再把该td节点加入到tr节点中去
+	tr.appendChild(aTd);
+	     //然后a节点设置点击相应函数
+	aNode.onclick = function(){
+	   removeTr(this);
+	   //取消默认行为
+	   return false;
+	}
+	   //加入一行  也就是加入个tr在tbody里面
+	document.getElementById("employeetable")
+	.getElementsByTagName("tbody")[0]
+	.appendChild(tr);
+	
+	
+	     //value: 用于获取 html 表单元素的值
+		 //alert(this.value); //
+		 //nodeValue: 用于获取文本节点的文本值. 
+		 //alert(this.nodeValue); //null
+	}
+	
+	}
+	</script>
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+<center>
+		<br> <br> 添加新员工 <br> <br> name: <input type="text"
+			name="name" id="name" />&nbsp;&nbsp; email: <input type="text"
+			name="email" id="email" />&nbsp;&nbsp; salary: <input type="text"
+			name="salary" id="salary" /> <br> <br>
+		<button id="addEmpButton" value="abc">Submit</button>
+		<br> <br>
+		<hr>
+		<br> <br>
+		<table id="employeetable" border="1" cellpadding="5" cellspacing=0>
+			<tbody>
+				<tr>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Salary</th>
+					<th>&nbsp;</th>
+				</tr>
+				<tr>
+					<td>Tom</td>
+					<td>tom@tom.com</td>
+					<td>5000</td>
+					<td><a href="deleteEmp?id=001">Delete</a></td>
+				</tr>
+				<tr>
+					<td>
+						Jerry
+					</td>
+					<td>jerry@sohu.com</td>
+					<td>8000</td>
+					<td><a href="deleteEmp?id=002">Delete</a></td>
+				</tr>
+				<tr>
+					<td>Bob</td>
+					<td>bob@tom.com</td>
+					<td>10000</td>
+					<td><a href="deleteEmp?id=003">Delete</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</center>
+
+
+  </body>
+</html>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+   <bean id="person" class="com.kyle.spring.struts.beans.Person">
+          <property name="username" value="spring"></property>
+   </bean>
+   
+   <bean id="personService" class="com.kyle.spring.struts.services.PersonService">
+   </bean>
+   
+   <bean id="personAction" class="com.kyle.spring.struts.actions.PersonAction"
+   scope="prototype"><!-- 注意:在IOC容器中配置Struts 的Action 时需要配置 scope属性,其值必须为prototype
+   struts的Action是非单例的 -->
+         <property name="personService" ref="personService"></property>
+   </bean>
+   
+</beans>

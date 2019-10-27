@@ -1,0 +1,131 @@
+package com.kyle.ssh.actions;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.Date;
+import java.util.Map;
+
+import org.apache.struts2.interceptor.RequestAware;
+
+import com.kyle.ssh.entities.Employee;
+import com.kyle.ssh.service.DepartmentService;
+import com.kyle.ssh.service.EmployeeService;
+import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ModelDriven;
+import com.opensymphony.xwork2.Preparable;
+
+public class EmployeeAction extends ActionSupport 
+implements RequestAware,ModelDriven<Employee>,Preparable{
+
+	private static final long serialVersionUID = 1L;
+
+	private EmployeeService employeeService;
+	public void setEmployeeService(EmployeeService employeeService) {
+		this.employeeService = employeeService;
+	}
+	
+	private DepartmentService departmentService;
+	public void setDepartmentService(DepartmentService departmentService) {
+		this.departmentService = departmentService;
+	}
+	
+	private Integer id;
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
+	private Map<String,Object> request;
+	@Override
+	public void setRequest(Map<String, Object> arg0) {
+		this.request = arg0;
+	}
+	
+	private Employee model;
+	@Override
+	public Employee getModel() {
+		return model;
+	}
+	
+	@Override
+	public void prepare() throws Exception {
+	}
+	
+	
+	// 表示把查询出来的全部的employees放到集合里 然后再从list.jsp页面里去获取集合里面的每一条记录
+	public String list(){
+		request.put("employees", employeeService.getAll());
+		return "list";
+	}
+	
+	//表示把查询出来的全部的departments发到集合里去,然后再input.jsp页面获取集合的记录
+	public String input(){
+		request.put("departments",departmentService.getAll());
+		return INPUT;
+	}
+	//为input()做准备,如果id不为null就执行if体里面的代码,然后执行完在去执行input()方法
+	public void prepareInput(){
+		if(id != null){
+	//表示从数据库中通过id获取对象,然后放到值栈的栈顶,然后导目标页面自动的回显
+			model = employeeService.get(id);
+		}
+	}
+ 
+    //可以根据是否有id来判断是否新是添加还是修改操作
+    public String save(){
+    	if(id == null){
+    		model.setCreateTime(new Date());
+    	}
+    	employeeService.saveOrUpdate(model);
+    	return SUCCESS;
+    }
+    //可以根据id来判断save方法准备的model是new 的还是从数据库获取的!
+    public void prepareSave(){
+    	if(id == null){
+    		model = new Employee();
+    	}else{
+    //表示先从数据库里获取一个对象,然后表单提交时修改获取该对象部分的属性,而有些数据没修改还是数据库里面的
+    //在进行update就可以了
+    		model = employeeService.get(id);
+    	}
+    }
+	
+	
+	//使用ajax操作
+	private InputStream inputStream;
+    public InputStream getInputStream(){
+    	return inputStream;
+    }
+    public String delete(){
+    	employeeService.delete(id);
+    	try {
+			inputStream = new ByteArrayInputStream("1".getBytes("UTF-8"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			try {
+				inputStream = new ByteArrayInputStream("0".getBytes("UTF-8"));
+			} catch (UnsupportedEncodingException e1) {
+				e1.printStackTrace();
+			}
+		}
+    	return "ajax-success";
+    }
+    
+    //
+    public String lastName;
+    
+    public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+    
+    public String validateLastName() throws UnsupportedEncodingException{
+    	if(employeeService.lastNamelsValid(lastName)){
+    		inputStream = new ByteArrayInputStream("1".getBytes("UTF-8"));
+    	}else{
+    		inputStream = new ByteArrayInputStream("0".getBytes("UTF-8"));
+    	}
+    	return "ajax-success";
+    }
+    
+    
+}

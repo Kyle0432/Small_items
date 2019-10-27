@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  
+  <configuration>
+  
+  <settings>
+      <!-- 驼峰命名规则 -->
+      <setting name="mapUnderscoreToCamelCase" value="true"/>
+  </settings>
+  
+  <typeAliases>
+       <!-- package:为某个包下的所有类批量起别名
+           name:指定包名(为当前包以及下面所有的后代包的每一个类都起一个默认别名(类名小写))
+       -->
+      <package name="com.kyle.crud.bean"/>
+  </typeAliases>
+  
+      <!--分页插件的注册  -->
+   <plugins>
+     <plugin interceptor="com.github.pagehelper.PageInterceptor">
+          <!-- 此属性的作用是校验在分页的时候页数小于第一页数会自动显示第一页数,大于末页显示末页数 -->
+          <property name="reasonable" value="true"/>
+     </plugin>
+   </plugins>   
+  
+  
+  
+  
+  
+  
+  </configuration>

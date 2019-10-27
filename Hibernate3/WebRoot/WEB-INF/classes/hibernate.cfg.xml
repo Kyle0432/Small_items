@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+    
+    <!-- ①配置数据库基本信息 -->
+    <property name="connection.username">root</property>
+    <property name="connection.password">mysqladmin</property>
+    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="connection.url">jdbc:mysql:///test</property>
+    
+    <!-- ②配置hibernate的基本信息 -->
+    <!-- 配置hibernate的所用数据库方言 -->
+    <property name="dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
+    
+    <!-- 执行操作时是否在控制台打印SQL语句 -->
+    <property name="show_sql">true</property>
+    
+    <!-- 是否对SQL进行格式化操作 -->
+    <property name="format_sql">true</property>
+    
+    <!-- 指定生成数据表策略 -->
+    <property name="hbm2ddl.auto">update</property>
+    
+    <!--设置hibernate 事务隔离级别  -->
+    <property name="connection.isolation">2</property>
+    
+    <!-- 删除对象后,使其OID置为null -->
+    <property name="use_identifier_rollback">true</property>
+    
+    <!-- 配置c3p0数据源 -->
+    <property name="hibernate.c3p0.max_size">10</property>
+    <property name="hibernate.c3p0.min_size">5</property>
+    <property name="c3p0.acquire_increment">2</property>
+    <property name="c3p0.idle_test_period">2000</property>
+    <property name="c3p0.timeout">2000</property>
+    <property name="c3p0.max_statements">10</property>
+    
+    <!-- 设定JDBC的statement读取数据的时候每次从数据库中取出的记录数 -->
+    <property name="hibernate.jdbc.fetch_size">100</property>
+    
+    <!-- 设定对数据库进行批量删除,批量更新和批量插入的时候的批次大小 -->
+    <property name="jdbc.batch_size">30</property>
+    
+    <!-- ③指定关联 .hbm,xml文件 -->
+<!--     <mapping resource="com/kyle/hibernate/one2one/foreign/Manager.hbm.xml"/>
+    <mapping resource="com/kyle/hibernate/one2one/foreign/Department.hbm.xml"/>
+    <mapping resource="com/kyle/hibernate/one2one/primary/Manager.hbm.xml"/>
+    <mapping resource="com/kyle/hibernate/n2n/Category.hbm.xml"/>
+    <mapping resource="com/kyle/hibernate/n2n/Item.hbm.xml"/>
+    <mapping resource="com/kyle/hibernate/subclass/Person.hbm.xml"/>
+    <mapping resource="com/kyle/hibernate/one2one/primary/Department.hbm.xml"/> -->
+    <mapping resource="com/kyle/hibernate/union/subclass/Person.hbm.xml"/>
+    </session-factory>
+</hibernate-configuration>

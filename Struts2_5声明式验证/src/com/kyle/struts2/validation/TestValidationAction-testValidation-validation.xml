@@ -1,0 +1,41 @@
+<!DOCTYPE validators PUBLIC
+        "-//Apache Struts//XWork Validator 1.0.2//EN"
+        "http://struts.apache.org/dtds/xwork-validator-1.0.2.dtd">
+
+<validators>
+            <!-- 针对于age属性进行验证 ,基于字段的验证 -->
+            <field name="age">
+                   	<!-- short-circuit表示设置短路验证
+                   	如果当前验证不通过就不在进行下面的验证了 -->
+                   <field-validator type="conversion" short-circuit="true">
+                          <message>error</message>                   
+                   </field-validator>
+                   <field-validator type="int">
+                   <param name="min">20</param>
+                   <param name="max">50</param>
+                   <message key="error.int"></message>
+                   </field-validator>
+            </field>
+            
+            <field name="count">
+                  <field-validator type="int">
+                  <param name="min">1</param>
+                  <param name="max">10</param>
+                  <message key="error.int"></message>
+                   </field-validator>
+            </field>
+            
+            
+            <field name="idCard">   <!-- type和validators.xml里的validatorname对应 -->
+                  <field-validator type="idcard">
+                  <message>身份证错误不匹配</message>
+                   </field-validator>
+            </field>
+            
+            <!-- 测试非字段验证 -->
+            <validator type="expression">
+                  <param name="expression"><![CDATA[password==password2]]></param>
+                  <message>密码不一致</message>
+            </validator>
+
+</validators>

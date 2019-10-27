@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>04元素的尺寸.html</title>
+	<style>
+    div {
+    width: 100px;
+    height: 150px;
+    background: red;
+    padding: 10px;
+    border: 10px #fbd850 solid;
+    margin: 10px;
+  }
+</style>
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+    <div>div</div>
+<!--
+1. 内容尺寸
+  height(): height
+  width(): width
+2. 内部尺寸
+  innerHeight(): height+padding
+  innerWidth(): width+padding
+3. 外部尺寸
+  outerHeight(false/true): height+padding+border  如果是true, 加上margin
+  outerWidth(false/true): width+padding+border 如果是true, 加上margin
+-->
+<script type="text/javascript" src="script/jquery-1.12.3.js"></script>
+<script type="text/javascript">
+  var $div = $("div");
+  //1,内容尺寸
+  console.log($div.width(),$div.height());//100 50
+  //2,内部尺寸
+  console.log($div.innerWidth(),$div.innerHeight());//120 170
+  //3,外部尺寸    
+  //表示默认为flase
+  console.log($div.outerWidth(),$div.outerHeight());//140 190
+  //指定为true
+  console.log($div.outerWidth(true),$div.outerHeight(true));//160 210
+</script>
+  </body>
+</html>

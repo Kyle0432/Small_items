@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kyle.mybatis.dao.EmployeeMapper"><!-- 此时表示该文件和接口绑定了 -->
+<!-- 
+Mybatis提供了一个功能就是接口和配置文件进行动态绑定
+namespace:名称空间,指定接口的全类名
+id:唯一标识
+resultType:返回值类型(类的全类名,有点像hibernate里的映射)
+#{id}:从传递过来的参数中取出id值
+public Employee getEmpById(Integer id);
+ -->
+ <!-- id设置为接口里方法的方法名,表示select标签和这个方法绑定了 
+            同样select标签是EmployeeMapper接口下getEmpById方法的实现
+     databaseId的别名mysql表示的是标签里的sql语句是在MySQL环境下使用的 
+            同样可以在其他数据库环境下使用,只需要在全局配置文件中进行环境的切换即可
+        -->
+ <select id="getEmpById" resultType="emp" databaseId="mysql">
+ <!-- 这里给last_name取了别名,尽管javaBean那里属性和数据库字段不对应,而这里取了别名就可以获取该字段 -->
+ select * from employee where id = #{id}
+ </select>
+ 
+ <!-- 在传入多个参数时加上param注解之后就可以直接写指定的参数在#{}里面了,无需要些param1和oarma2或者 0、1 -->
+ <select id="getEmployeeByIdAndLastName" resultType="emp">
+ select * from employee where id = #{id} and last_name = #{lastName}
+ </select>
+ 
+ <!--传入一个map直接从map里面拿到值的  -->
+ <select id="getEmpByMap" resultType="emp">
+ <!-- 
+ 区别：
+		#{}:是以预编译的形式，将参数设置到sql语句中；PreparedStatement；防止sql注入
+		${}:取出的值直接拼装在sql语句中；会有安全问题；
+		大多情况下，我们去参数的值都应该去使用#{}；
+		
+		原生jdbc不支持占位符的地方(表名,排序,除了where条件后的)我们就可以使用${}进行取值
+		比如分表、排序。。。；按照年份分表拆分
+			select * from ${year}_salary where xxx;
+			select * from tbl_employee order by ${f_name} ${order}
+ 
+  -->
+ select * from ${tableName} where id = #{id} and last_name = #{lastName}
+ </select>
+ 
+ <!-- 如果返回的是一个集合,要写集合中元素的类型,也就是泛型是什么类型,这里的泛型类型还是 Employee -->
+ <select id="getEmpsByLastNameLike" resultType="emp">
+ select * from employee where last_name like #{lastName}   
+ </select>
+ 
+ <!--用map集合返回的结果类型如果想让mabatis封装成什么类型,比如map-->
+ <select id="getEmpByIdReturnMap" resultType="map">
+ select * from employee where id = #{id}
+ </select>
+
+<!--返回值类型:因为每一条都封装成Employee,所有类型还是Employee -->
+<select id="getEmpByLastNameLikeReturnMap" resultType="emp">
+ select * from employee where last_name like #{lastName}
+</select>
+
+ <!--public void addEmp(Employee employee); -->
+ <!-- 
+    parameterType,可以省略,要写的话可写全类名和别名
+    values#花括号里面的是对应javaBean里的属性值,而不是对应数据库里的字段
+  
+  获取自增主键
+    mysql支持自增主键,自增主键值的获取,mybatis也是利用statement.getGenreateKeys();
+    useGenerateKeys = "true",使用自增主键获取主键值策略
+    keyProperty;指定对应的主键属性,也就是mybatis获取到主键值以后,将这个值封装给javaBean的哪个属性
+         如果不写useGeneratedKeys="true" keyProperty="id"就无法获取自增的id属性值
+  -->
+ <insert id="addEmp" parameterType="emp"
+  useGeneratedKeys="true" keyProperty="id" databaseId="mysql">
+  insert into employee(last_name,email,gender)
+  values(#{lastName},#{email},#{gender})
+ </insert>
+ 
+ <!-- 
+     Oracle不支持自增,Oracle使用序列来模拟自增
+            每次插入的数据的主键是从序列中拿到的值,如何获取到这个值
+  -->
+<!--  <insert id="addEmp" databaseId="oracle">
+     keyProperty:查出的主键值封装给javabean的哪个属性
+     order="BEFORE"当前sql在 插入sql之前运行的
+     resultType 查出的数据的返回值类型
+     运行顺序:
+     先运行selectKey查询id的sql:查出id值封装给javaBean的id属性
+     在运行插入sql,就可以取出id属性对应的值    
+     
+     <selectKey keyProperty="id" order="BEFORE" resultType="Integer">
+          sel  ect EMPLOYEES_SQL.nextval from dual
+     </selectKey>
+     
+     插入的主键是从序列中拿到的
+     insert into employees(EMPLOYEE_ID,LAST_NAME,EMAIL)
+     values(223，#{lastName},#{email,jdbcType=NULL})
+ </insert> -->
+ <!-- public void updateEmp(Employee employee); -->
+ <update id="updateEmp">
+  update employee set last_name = #{lastName},email = #{email},gender = #{gender}
+  where id = #{id}
+ </update>
+ <!-- public void deleteById(Integer id); -->
+ <delete id="deleteById">   <!-- 数据库的id等于参数所传过来的id-->
+  delete from employee where id = #{id}
+ </delete>
+ 
+</mapper>

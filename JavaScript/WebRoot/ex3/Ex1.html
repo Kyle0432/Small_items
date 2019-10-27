@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ex1.html</title>
+	<script type="text/javascript">
+	   //关于节点的属性: nodeType nodeName nodeValue
+	   //在文档中,任何一个节点都有这3个属性
+	   //而 id name value 是具体节点的属性
+	window.onload = function(){
+	      //1,元素节点的这3个属性
+	      var biNode = document.getElementById("bj");
+	      alert(bjNode.nodeType);//元素节点:1
+	      alert(bjNode.nodeName);//节点名:li
+	      alert(bjNode.nodeValue);//元素节点没有nodeValue属性值:null
+	      
+	      //2,属性节点
+	      var nameAttr = document.getElementById("name").getAttributeNode("name");
+	      alert(nameAttr.nodeType);//属性节点:2
+	      alert(nameAttr.nodeName);//属性节点的节点名:属性名(name)
+	      alert(nameAttr.nodeValue);//属性节点的nodeValue属性值:属性值(username)
+	      
+	      //文本节点:
+	      var textNode = bjNode.firstChild;
+	      alert(textNode.nodeType);//文本节点:3
+	      alert(textNode.nodeName);//节点名:#text
+	      alert(textNode.nodeValue);//文本节点的nodeValue属性值:文本值本身(北京)
+	      
+	      		//nodeType、nodeName 是只读的.
+				//而 nodeValue 是可以被改变的。 
+				//以上三个属性, 只有在文本节点中使用 nodeValue 读写文本值时使用最多.
+	      
+	}
+	
+	</script>
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+
+
+
+
+
+  </body>
+</html>

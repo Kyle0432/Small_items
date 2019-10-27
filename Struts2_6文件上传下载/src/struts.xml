@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+       <!-- 配置国际化资源文件 ,定制错误消息. -->
+       <constant name="struts.custom.i18n.resources" value="i18n"></constant>
+       
+       <!--通过配置 FileUploadInterceptor 拦截器的参数的方式来进行限制 -->
+       <package name="default" namespace="/" extends="struts-default">
+          <interceptors>
+          
+          <interceptor name="MyInterceptor" class="com.kyle.struts2.interceptors.MyInterceptors"></interceptor>
+          
+              <interceptor-stack name="Kyle">
+                   <interceptor-ref name="defaultStack">
+                      <param name="fileUpload.maximumSize">2097152</param>
+                      <param name="fileUpload.allowedTypes">text/html,text/xml</param>
+                      <param name="fileUploas.allowedExtensions">html,dtd,xml</param>
+                   </interceptor-ref>
+              </interceptor-stack>
+          </interceptors>
+          <!-- 表示使用上面的拦截器栈 -->
+          <default-interceptor-ref name="Kyle"></default-interceptor-ref>
+          
+                <action name="testUpload" class="com.kyle.struts2.upload.UploadAction">
+                     <result>/success.jsp</result>
+                </action>
+                
+                <action name="testDoenlaod" class="com.kyle.struts2.download.DownloadAction">
+                        <result type="stream">
+                           <param name="bufferSize">2048</param>
+                        </result>
+                </action>
+                
+                <action name="testToken" class="com.kyle.struts2.token.TokenAction">
+                        <!-- 使用自定义的那个拦截器 -->
+                        <interceptor-ref name="MyInterceptor"></interceptor-ref>
+                        <interceptor-ref name="token"></interceptor-ref>
+                        <interceptor-ref name="defaultStack"></interceptor-ref>
+                        <result>/success.jsp</result>
+                        <result name="invalid.token">/token-error.jsp</result>
+                </action>
+                
+       </package>
+       
+</struts>

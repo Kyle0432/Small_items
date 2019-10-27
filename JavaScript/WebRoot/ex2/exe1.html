@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>exe1.html</title>
+	<script type="text/javascript">
+	window.onload = function() {
+		//点击每个li节点,都弹出其文本值
+		
+		//1,获取所有的li节点
+		var liNodes = document.getElementsByTagName("li");
+		
+		//2,使用for循环进行遍历,得到每一个li节点
+		for(var i = 0 ; i < liNodes.length;i++){
+		//3,为每一个li节点添加onclick响应函数.
+		liNodes[i].onclick = function(){
+		//4,在响应函数中获取当前节点的文本的文本值
+		//5,alert打印
+		//this为正在响应事件的那个节点
+		alert(this.firstChild.nodeValue);
+		
+		//此时i已经是8了,而liNodes[8] 不指向任何节点,因为
+		//一点击触发for循环就已经结束了,所以最后的值是8,所以this
+		//不能替换成liNode[i]
+		//alert(i);
+		}
+		
+		}
+	}
+	
+	
+	</script>
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+  <p>你喜欢哪个城市?</p>
+		<ul id="city">
+			<li id="bj" name="BeiJing">北京</li>
+			<li>上海</li>
+			<li>东京</li>
+			<li>首尔</li>
+		</ul>
+		
+		<br><br>
+		<p>你喜欢哪款单机游戏?</p>
+		<ul id="game">
+			<li id="rl">红警</li>
+			<li>实况</li>
+			<li>极品飞车</li>
+			<li>魔兽</li>
+		</ul>
+		
+		<br><br>
+		name: <input type="text" name="username" 
+			id="name" value="atguigu"/>
+  </body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ex1.html</title>
+	<script type="text/javascript">
+	      //测试removeChild()方法:删除节点
+	window.onload = function(){
+	    //为每一个li节点添加一个confirm(确认对话框):确定要删除XXX的信息吗？
+	    //若确定,则删除
+	    var liNodes = document.getElementsByTagName("li"); 
+	        for(var i = 0 ; i < liNodes.length; i++){
+	            liNodes[i].onclick = function(){
+	               var flag = confirm("确定要删除"+this.firstChild.nodeValue+"的信息吗？");
+	            //表示确定的话就是执行if体
+	            if(flag){
+	               this.parentNode.removeChild(this);
+	            }
+	            
+	            }
+	        }
+	        		/*
+				alert("1");
+				var bjNode = document.getElementById("bj");
+				bjNode.parentNode.removeChild(bjNode);
+				*/
+	            //var flag = confirm("确定要删除吗?");
+				//alert(flag);
+	}
+	
+	
+	
+	
+	
+	
+	</script>
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+    <p>你喜欢哪个城市?</p>
+		<ul id="city"><li id="bj" name="BeiJing">北京</li>
+			<li>上海</li>
+			<li>东京</li>
+			<li>首尔</li>
+		</ul>
+		
+		<br><br>
+		<p>你喜欢哪款单机游戏?</p>
+		<ul id="game">
+			<li id="rl">红警</li>
+			<li>实况</li>
+			<li>极品飞车</li>
+			<li>魔兽</li>
+		</ul>
+		
+		<br><br>
+		gender: 
+			<input type="radio" name="gender" value="male"/>Male
+			<input type="radio" name="gender" value="female"/>Female
+	
+		<br><br>
+		name: <input type="text" name="username" value="atguigu"/>
+		
+  </body>
+</html>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+   <!-- 配置 Struts 可以受理的请求的扩展名 -->
+   <constant name="struts.action.extension" value="action,do,"></constant>
+   <!-- 打开静态方法调用的限制 -->
+   <constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
+<!--  
+		package: 包. struts2 使用 package 来组织模块. 
+		name 属性: 必须. 用于其它的包应用当前包. 
+		extends: 当前包继承哪个包, 继承的, 即可以继承其中的所有的配置. 通常情况下继承 struts-default
+		         struts-default 这个包在 struts-default.xml 文件中定义.
+		namespace 可选, 如果它没有给出, 则以 / 为默认值. 
+		                        若 namespace 有一个非默认值, 则要想调用这个包里的Action, 
+		                        就必须把这个属性所定义的命名空间添加到有关的 URI 字符串里
+		                        
+		          http://localhost:8080/contextPath/namespace/actionName.action
+	-->
+         <package name="helloworld" extends="struts-default" namespace="/">
+         <!-- 
+    		配置一个 action: 一个 struts2 的请求就是一个 action 
+    		name: 对应一个 struts2 的请求的名字(或对一个 servletPath, 但去除 / 和扩展名), 不包含扩展名
+    		class 的默认值为: com.opensymphony.xwork2.ActionSupport
+    		method 的默认值为: execute
+    		result: 结果. 
+    	-->
+              <action name="product-input">
+                    <result>/WEB-INF/pages/input.jsp</result>
+              </action>
+         <!--  
+    			result: 结果. 表示 action 方法执行后可能返回的一个结果. 所以一个 action 节点可能会有多个 result 子节点.
+    			多个 result 子节点使用 name 来区分
+    			name: 标识一个 result. 和 action 方法的返回值对应. 默认值为 success
+    			type: 表示结果的类型. 默认值为 dispatcher(转发到结果.)
+    		-->
+              <action name="product-save" class="com.kyle.struts2.helloworld.Product"
+              method="execute">
+                        <result name="details">/WEB-INF/pages/details.jsp</result>
+              </action>
+         
+              <!-- 解耦和耦合  -->
+              <action name="TestActionContext"
+              class="com.kyle.struts2.action.TestActionContextAction"
+              method="execute">
+                      <result name="success">test-actionContext.jsp</result>
+              </action>
+         
+              <action name="TestAware" class="com.kyle.struts2.action.TestAwareAction">
+              <result name="success">test-aware.jsp</result>
+              </action>
+               
+              <action name="TestServletActionContext"
+              class="com.kyle.struts2.action.TestServletActionContextAction">
+              <result>test-servletActionContext.jsp</result>
+              </action>
+         
+              <!-- type类型的用法与作用 -->
+              <action name="TestResult" class="com.kyle.struts2.action.TestResultAction">
+              <!--转发  和servlet里的一样  -->
+              <result name="success" type="dispatcher">/success.jsp</result>
+              <!--重定向 和servlet里的一样 -->
+              <result name="login" type="redirect">/login.jsp</result>
+                      <!-- 重定向到一个Action --> 
+              <result name="index1" type="redirectAction">
+                       <!-- 表示那个package里的action名字为:testAction -->
+                      <param name="actionName">testAction</param>
+                      <!-- 表示那个package里的namespace为:/kyle
+                                                      这样就可以直接找到那个Action类了 -->
+                      <param name="namespace">/kyle</param>
+              </result> 
+              <!-- 另一种重定向到Action方法 -->
+               <!-- <result name="index1" type="redirect">/kyle/testAction.do</result> -->
+              <!--转发到一个Action类  -->
+              <result name="test" type="chain">
+              <!-- 和上面类似 -->
+                      <param name="actionName">testAction</param>
+                      <param name="namespace">/kyle</param>
+              </result>
+              
+              <!-- 通配符* -->
+              </action>
+              <!-- *表示通配符表示前缀为UserAction-都进行匹配 -->
+              <action name="UserAction-*" class="com.kyle.struts2.helloworld.UserAction"
+              method="{1}">
+              <!-- {1}表示第几个通配符,并且也是所匹配的那个字符串 -->
+              <result name="{1}-success">/success.jsp</result>
+              </action>
+              
+              
+              <action name="product-save1" class="com.kyle.struts2.valuestack.Product">
+                       <result>/details.jsp</result>
+              </action>
+         
+         </package>
+         <package name="testPackage" namespace="/kyle" extends="struts-default">
+                  <action name="testAction" class="com.kyle.struts2.action.TestAction">
+                          <result>/success.jsp</result>
+                  </action>
+         </package>
+</struts>

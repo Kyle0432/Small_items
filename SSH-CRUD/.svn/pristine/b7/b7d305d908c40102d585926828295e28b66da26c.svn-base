@@ -1,0 +1,67 @@
+package com.kyle.ssh.actions;
+
+import java.util.Map;
+
+import org.apache.struts2.interceptor.RequestAware;
+
+import com.kyle.ssh.entities.Employee;
+import com.kyle.ssh.service.DepartmentService;
+import com.kyle.ssh.service.EmployeeService;
+import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ModelDriven;
+import com.opensymphony.xwork2.Preparable;
+
+public class EmployeeAction extends ActionSupport 
+implements RequestAware,ModelDriven<Employee>,Preparable{
+
+	private static final long serialVersionUID = 1L;
+
+	private EmployeeService employeeService;
+	
+	public void setEmployeeService(EmployeeService employeeService) {
+		this.employeeService = employeeService;
+	}
+	
+	private DepartmentService departmentService;
+	
+	public void setDepartmentService(DepartmentService departmentService) {
+		this.departmentService = departmentService;
+	}
+	
+	private Integer id;
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
+	//ÏÔÊ¾È«²¿employees
+	public String list(){
+		request.put("employees", employeeService.getAll());
+		return "list";
+	}
+	
+	public String input(){
+		request.put("departments",departmentService.getAll());
+		return INPUT;
+	}
+	
+	
+	
+	private Map<String,Object> request; 
+	
+	@Override
+	public void setRequest(Map<String, Object> arg0) {
+		this.request = arg0;
+	}
+    
+	private Employee model;
+	@Override
+	public Employee getModel() {
+		return model;
+	}
+
+	@Override
+	public void prepare() throws Exception {
+	}
+
+}

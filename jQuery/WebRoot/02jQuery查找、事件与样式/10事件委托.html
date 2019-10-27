@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>10事件委托.html</title>
+	
+    <meta name="keywords" content="keyword1,keyword2,keyword3">
+    <meta name="description" content="this is my page">
+    <meta name="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+<body>
+<ul>
+  <li>11111</li>
+  <li>1111111</li>
+  <li>111111111</li>
+  <li>11111111111</li>
+</ul>
+
+<li>22222</li>
+<br>
+<button id="btn">添加新的li</button>
+<br>
+
+<!--
+绑定事件监听的问题: 新加的元素没有监听
+-->
+<script type="text/javascript" src="script/jquery-1.12.3.js"></script>
+<script type="text/javascript">
+   /*
+   需求：
+   1. 点击 li 背景就会变为红色
+   2. 点击 btn 就添加一个 li
+  */
+  /*
+  ul>li 是它的所有的li孩子   而.children（）是表示查找具体的某一个
+  */
+  $("ul>li").click(function(){
+     this.style.background = "red";
+  });
+  $("#btn").click(function(){
+   $("ul").append("<li>新增的li....</li>");
+  });
+
+
+</script>
+  </body>
+</html>
